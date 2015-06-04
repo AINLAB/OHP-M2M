@@ -10,4 +10,5 @@ It provides a basic templates for nine medical devices implemented so far. These
 
 The main aim of the project is to provide a platform for the users to manage and use medical devices in the IoT environment conveniently.
 
-P.S: Please follow the user guideline to install and use OHP-M2M, you can find the user guideline in first page of OHP-M2M repository in github.
+P.S : Please follow the user guideline to install and use OHP-M2M, you can find the user guideline in first page of OHP-M2M repository in github.
+Website : http://155.230.24.219/
