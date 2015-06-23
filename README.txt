@@ -1,14 +1,29 @@
-README
-OHP-M2M PLATFORM
+OHP-M2M (Open Healthcare Machine to Machine) PLATFORM
 
-Open Healthcare Platform based on oneM2M and ISO/IEEE 11073 PHD (OHP-M2M) project, initiated by Advanced Information Network (AIN) Laboratory in Kyungpook National University, Korea, is an open source implementation of the healthcare SmartM2M standard. It provides a horizontal M2M healthcare service platform for developing services independently of the underlying network, with the aim to facilitate the deployment of vertical applications and heterogeneous devices in healthcare application.
+What is this?
 
-The open healthcare platform constitutes a healthcare M2M device and a M2M server for the transmission of healthcare device information. The M2M server is based on OM2M platform, which follows the ETSI M2M standard. The healthcare M2M device communicates with the M2M server using the CoAP and ISO/IEEE 11073 PHD. 
+OHP-M2M Platform is an open source implementation of the international healthcare standards to develop IoT healthcare service. It is based on oneM2M and ISO/IEEE 11073 PHD standard. The platform was initiated by Advanced Information Network (AIN) Laboratory in Kyungpook National University, Korea.
 
-The open healthcare platform enables developers to understand the IEEE 11073 Standards and customize device specialization attributes for the different medical devices.
-It provides a basic templates for nine medical devices implemented so far. These are; Medication monitor, Strength fitness equipment, cardiovascular monitor, blood pressure monitor, pulse oximeter monitor, body composition monitor, thermometer, weighing scale and glucose meter. 
 
-The main aim of the project is to provide a platform for the users to manage and use medical devices in the IoT environment conveniently.
+The OHPM-M2M Platform aims at;
+*Enabling developers to understand the IEEE 11073 Standards and oneM2M
+*Easy customisation of device specialization attributes for the different medical devices by developers.
+------------------------------------------------------------------------------------------------------------------------------------------
 
-P.S : Please follow the user guideline to install and use OHP-M2M, you can find the user guideline in OHP-M2M website.
-Website : http://openhealth.knu.ac.kr/
+What is the Main objective?
+
+The main objective of the project is to provide a platform for the users to manage and use medical devices in the IoT environment conveniently.
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+where is the Installation and Documentation?
+
+The installation and documentation are available as of the date of this release can be found on the http://openhealth.knu.ac.kr website. 
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+What has been worked on?
+
+The platform provides a basic templates for nine medical devices that are implemented so far. These are; medication monitor, strength fitness equipment, cardiovascular monitor, blood pressure monitor, pulse oximeter monitor, body composition monitor, thermometer, weighing scale and glucose meter.
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
