@@ -1,28 +1,23 @@
-package com.daniel.coapserver.coapresources;
+package com.ain.coapserver.coapresources;
 
 import static org.eclipse.californium.core.coap.CoAP.ResponseCode.CONTENT;
 import static org.eclipse.californium.core.coap.MediaTypeRegistry.TEXT_PLAIN;
-import static org.eclipse.californium.core.coap.CoAP.ResponseCode.CHANGED;
-import static org.eclipse.californium.core.coap.CoAP.ResponseCode.BAD_REQUEST;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.eclipse.californium.core.CoapResource;
-import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.CoAP.Type;
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
 public class SpO2Resource extends CoapResource{
-	private InputStream measurementFiles;
+	
 	private String fileName;
-	private String measurementStr;
+	private String xmlStr;
 	private int dataCf = MediaTypeRegistry.TEXT_XML;
 	private static int TIME_SPAN = 3 * 1000;
 	private Timer timer;
@@ -30,12 +25,10 @@ public class SpO2Resource extends CoapResource{
 	public SpO2Resource(String name, String fileName){
 		super(name);
 		this.fileName = fileName;
-		setObservable(true);
-		getAttributes().setTitle("SpO2 Measurements");
-		getAttributes().addResourceType("SpO2 Measurements");
-		getAttributes().setObservable();
-		setObserveType(Type.CON);
 		
+		getAttributes().setTitle("SpO2 DIM");
+		getAttributes().addResourceType("SpO2 DIM");
+				
 		//Set timer task scheduling	
 		timer = new Timer();
 		timer.schedule(new TimeTask(),0, TIME_SPAN);
@@ -51,29 +44,30 @@ public class SpO2Resource extends CoapResource{
 			changed();
 		}		
 	}
+
 	
 	
-	private String getMeasurementStr(){
+	private String getStr(){
 		try{
-			measurementStr = getXMLStr(new FileInputStream(new File(fileName)));	
+			xmlStr = getXMLStr(new FileInputStream(new File(fileName)));	
 			System.out.print("XML : " + "\n");
-			System.out.print(measurementStr);
+			System.out.print(xmlStr);
 		}catch(Exception e){
 			e.printStackTrace();	
 		}	
-		return measurementStr;
+		return xmlStr;
 	} 
-
+	
 	
 	private String getXMLStr(FileInputStream fis) throws IOException{
 		
-		String xmlStr = "";
+		String str = "";
 		if (fis != null) {
 			
 			byte[] data = new byte[1024];
 			int hasRead = 0;
 			while ((hasRead = fis.read(data)) > 0) {
-				xmlStr += new String(data, 0, hasRead);
+				str += new String(data, 0, hasRead);
 			}
 			try {
 				fis.close();
@@ -82,7 +76,7 @@ public class SpO2Resource extends CoapResource{
 				e.printStackTrace();
 			}
 		}
-		return xmlStr;
+		return str;
 
 
 	}
@@ -96,9 +90,11 @@ public class SpO2Resource extends CoapResource{
 	@Override
 	public void handleGET(CoapExchange exchange) {
 		// TODO Auto-generated method stub
+		
+		System.out.println(exchange+"  GET");
 		System.out.print(this.getClass().getName() + " GET ");	
 		exchange.setMaxAge(5);
-		exchange.respond(CONTENT, getMeasurementStr(),dataCf);
+		exchange.respond(CONTENT, getStr(),dataCf);
 
 	}
 	
@@ -111,16 +107,6 @@ public class SpO2Resource extends CoapResource{
 	@Override
 	public void handlePUT(CoapExchange exchange) {
 		// TODO Auto-generated method stub
-		System.out.println(this.getClass().getName() + " PUT ");
-		if(!exchange.getRequestOptions().hasContentFormat()){
-			exchange.respond(BAD_REQUEST,"Content-Format not set");
-			return;
-		}
-		System.out.println("PayLoad : "  + new String(exchange.getRequestPayload()));
-		timer.cancel();
-		timer = new Timer();
-		timer.schedule(new TimeTask(),0 , Integer.valueOf(new String(exchange.getRequestPayload())));			
-		exchange.respond(CHANGED);
-	
+		super.handlePUT(exchange);
 	}
 }

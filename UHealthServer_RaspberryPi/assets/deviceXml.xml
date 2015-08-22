@@ -17,7 +17,7 @@
           <spo2_simple>
             <simple_name>Basic-Nu-Observed-Value</simple_name>
             <simple_type>float</simple_type>
-            <simple_value>98</simple_value>
+            <simple_value>95</simple_value>
           </spo2_simple>
         </spo2_entry>
       </spo2_entries>

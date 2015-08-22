@@ -1,4 +1,4 @@
-package com.daniel.coapserver;
+package com.ain.coapserver;
 
 
 import java.io.FileWriter; 
@@ -77,7 +77,6 @@ public class CreateXML {
           
           
         
-         // SPO2 element 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙
          Element spo2_data= new Element("spo2_data-list"); //sp_datalist
          Element spo2_entry= new Element("spo2_ENTRY");// sp_ENTRT
          Element spo2_entry1= new Element("spo2_entry");//sp_entry
@@ -103,7 +102,6 @@ public class CreateXML {
          // student.setAttribute(new Attribute("id", "1"));  
          
          
-         //MDS Element占싫울옙 value
           mds_ENTRY.addContent(mds_compound);
           mds_compound.addContent(new Element("name").setText("MDS"));
           mds_compound.addContent(mds_entries);
@@ -228,7 +226,6 @@ public class CreateXML {
           mds_simple14.addContent(new Element("csimp_value2").setText("5")); 
          
      
-         //spo2 占쏙옙占쏙옙占쏙옙 占쏙옙占쌍깍옙
 
          spo2_entry.addContent(spo2_meta);
          spo2_meta.addContent(new Element("metaname_HANDLE").setText("1"));
@@ -247,7 +244,6 @@ public class CreateXML {
          spo2_simple.addContent(new Element("simple_value").setText("0"));
        
     
-         // get root element and added student element as a child of it  
          
          document_mds.getRootElement().addContent(mds_ENTRY);
          document_spo2.getRootElement().addContent(spo2_entry);
