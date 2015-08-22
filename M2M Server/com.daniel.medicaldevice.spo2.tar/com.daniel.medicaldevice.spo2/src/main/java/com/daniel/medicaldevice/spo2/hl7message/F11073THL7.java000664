@@ -1,0 +1,17 @@
+package com.daniel.medicaldevice.spo2.hl7message;
+
+import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.model.v26.segment.MSH;
+import ca.uhn.hl7v2.model.v26.segment.OBR;
+import ca.uhn.hl7v2.model.v26.segment.OBX;
+import ca.uhn.hl7v2.model.v26.segment.PID;
+
+import com.daniel.medicaldevice.spo2.dim.DomainInformationModel;
+
+public interface F11073THL7 {
+	public String creatHL7Message(DomainInformationModel dim);
+
+	
+
+	public String getHL7MsgString() throws HL7Exception;
+}

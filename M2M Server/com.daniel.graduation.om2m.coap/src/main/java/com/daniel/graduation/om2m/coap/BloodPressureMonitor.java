@@ -233,7 +233,7 @@ public class BloodPressureMonitor {
 				// TODO Auto-generated method stub
 				// Simualte a random measurement of the sensor
 
-				ObserveBloodPresure("coap://10.0.1.4:5683");
+				ObserveBloodPresure("coap://155.230.18.58:5683");
 
 				// sensorValue = 10 + (int) (Math.random() * 100);
 				//

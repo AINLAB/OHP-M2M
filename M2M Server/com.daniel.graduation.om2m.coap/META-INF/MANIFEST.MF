@@ -6,9 +6,10 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.daniel.graduation.om2m.coap.Activator
 Bundle-Vendor: DANIEL
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: obix,
- obix.io,
+Import-Package: 
  org.apache.commons.logging,
+ org.eclipse.om2m.commons.obix,
+ org.eclipse.om2m.commons.obix.io,
  org.eclipse.om2m.commons.resource,
  org.eclipse.om2m.commons.rest,
  org.eclipse.om2m.core.service,

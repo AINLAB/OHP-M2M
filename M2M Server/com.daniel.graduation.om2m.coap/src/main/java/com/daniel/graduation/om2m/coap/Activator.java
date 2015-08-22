@@ -2,11 +2,6 @@ package com.daniel.graduation.om2m.coap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.californium.core.CoapClient;
-import org.eclipse.californium.core.CoapHandler;
-import org.eclipse.californium.core.CoapObserveRelation;
-import org.eclipse.californium.core.CoapResponse;
-import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.network.config.NetworkConfig;
 import org.eclipse.om2m.core.service.SclService;
 import org.eclipse.om2m.ipu.service.IpuService;

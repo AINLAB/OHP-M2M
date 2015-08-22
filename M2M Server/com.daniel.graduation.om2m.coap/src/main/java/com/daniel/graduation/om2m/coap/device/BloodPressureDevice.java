@@ -2,17 +2,15 @@ package com.daniel.graduation.om2m.coap.device;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import obix.Contract;
-import obix.Obj;
-import obix.Op;
-import obix.Str;
-import obix.Uri;
-import obix.io.ObixEncoder;
+import org.eclipse.om2m.commons.obix.Contract;
+import org.eclipse.om2m.commons.obix.Obj;
+import org.eclipse.om2m.commons.obix.Op;
+import org.eclipse.om2m.commons.obix.Str;
+import org.eclipse.om2m.commons.obix.Uri;
+import org.eclipse.om2m.commons.obix.io.ObixEncoder;
 
 import com.daniel.graduation.om2m.coap.dim.DomainInformationModel;
 import com.daniel.graduation.om2m.coap.dim.elements.Compound;
-import com.daniel.graduation.om2m.coap.dim.elements.Simple;
 
 public class BloodPressureDevice {
 	private static Log LOGGER = LogFactory.getLog(BloodPressureDevice.class);

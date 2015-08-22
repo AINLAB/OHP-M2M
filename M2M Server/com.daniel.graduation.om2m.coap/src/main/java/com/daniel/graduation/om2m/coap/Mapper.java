@@ -1,11 +1,12 @@
 package com.daniel.graduation.om2m.coap;
 
-import obix.Contract;
-import obix.Int;
-import obix.Obj;
-import obix.Op;
-import obix.Uri;
-import obix.io.ObixEncoder;
+import org.eclipse.om2m.commons.obix.Contract;
+import org.eclipse.om2m.commons.obix.Int;
+import org.eclipse.om2m.commons.obix.Obj;
+import org.eclipse.om2m.commons.obix.Op;
+import org.eclipse.om2m.commons.obix.Uri;
+import org.eclipse.om2m.commons.obix.io.ObixEncoder;
+
 
 public class Mapper {
 	public static String getSensorDescriptorRep(String sclId, String appId,
