@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-list>
+  <entry>
+    <meta-data>
+      <meta name="HANDLE">1</meta>
+    </meta-data>
+    <compound>
+      <name>Numeric</name>
+      <entries>
+        <entry>
+          <meta-data>
+            <meta name="partition">2</meta>
+            <meta name="metric-id">19384</meta>
+            <meta name="unit-code">544</meta>
+            <meta name="unit">%</meta>
+          </meta-data>
+          <simple>
+            <name>Basic-Nu-Observed-Value</name>
+            <type>float</type>
+            <value>95</value>
+          </simple>
+        </entry>
+      </entries>
+    </compound>
+  </entry>
+  <entry>
+    <meta-data>
+      <meta name="HANDLE">10</meta>
+    </meta-data>
+    <compound>
+      <name>Numeric</name>
+      <entries>
+        <entry>
+          <meta-data>
+            <meta name="partition">2</meta>
+            <meta name="metric-id">18458</meta>
+            <meta name="unit-code">2720</meta>
+            <meta name="unit">bpm</meta>
+          </meta-data>
+          <simple>
+            <name>Basic-Nu-Observed-Value</name>
+            <type>float</type>
+            <value>97</value>
+          </simple>
+        </entry>
+      </entries>
+    </compound>
+  </entry>
+</data-list>
