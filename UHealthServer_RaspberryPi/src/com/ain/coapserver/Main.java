@@ -1,14 +1,6 @@
 package com.ain.coapserver;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.List;
-
 import org.eclipse.californium.core.CoapServer;
-import org.jdom2.Element;
-import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 
 import com.ain.coapserver.coapresources.SpO2MeasurmentResource;
 import com.ain.coapserver.coapresources.SpO2Resource;
@@ -18,10 +10,14 @@ public class Main{
 	public static String SPO2MEASUREMENTPath = "assets/pulse-oximeter-measurment.xml";
 	public static String SPO2DIMPath = "assets/pulse-oximeter-mds.xml";
 	public static CreateXML mdsXML;
+	public static ParserXML parserXML;
+	
 	public static void main(String[] args){
 		mdsXML = new CreateXML(96.5f, 95);
 		mdsXML.createdataXML();
 		mdsXML.creatMDSXML();
+		
+		parserXML = new ParserXML(SPO2DIMPath);
 		
 		SpO2Resource spo2Resource = new SpO2Resource("SpO2DIM",SPO2DIMPath);
 		SpO2MeasurmentResource spo2MeasurmentResource = new SpO2MeasurmentResource("SpO2Measurment", SPO2MEASUREMENTPath);
@@ -31,7 +27,7 @@ public class Main{
 		coapServer.start();	
 
 		process();
-		
+
 		
 			
 	}
