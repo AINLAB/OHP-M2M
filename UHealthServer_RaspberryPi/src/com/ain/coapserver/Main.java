@@ -17,7 +17,7 @@ public class Main{
 		mdsXML.createdataXML();
 		mdsXML.creatMDSXML();
 		
-		parserXML = new ParserXML(SPO2DIMPath);
+		parserXML = new ParserXML(SPO2DIMPath, SPO2MEASUREMENTPath);
 		
 		SpO2Resource spo2Resource = new SpO2Resource("SpO2DIM",SPO2DIMPath);
 		SpO2MeasurmentResource spo2MeasurmentResource = new SpO2MeasurmentResource("SpO2Measurment", SPO2MEASUREMENTPath);
@@ -47,6 +47,7 @@ public class Main{
                                             
 					   			   	mdsXML.SetData(spo2, pulserate);			
 					   			    mdsXML.createdataXML();
+					   			    parserXML.setDoc();
 					   		}catch (Exception e){
 					   			e.printStackTrace();	
 					   		}
