@@ -34,15 +34,15 @@ public class ParserXML {
 		this.MDSDoc = getXML(MDSPath);
 		this.MesurmentDoc = getXML(MesurmentPath);
 		
-		setDoc();
 		
+		setDoc();
 		System.out.println(spo2SystemType.toString());
 		System.out.println(spo2SystemModel.toString());
 		System.out.println(spo2SystemId.toString());
 		System.out.println(spo2SystemTypeSpecList.toString());
 		System.out.println(spo2DevConfigurationId.toString());
 		System.out.println(spo2ProductionSpecification.toString());
-		
+			
 		
 	}
 	
@@ -51,6 +51,7 @@ public class ParserXML {
 		this.MesurmentDoc = getXML(MesurmentPath);
 		parsingMDS(MDSDoc);
 		parsingMeasurment(MesurmentDoc);
+		
 		
 		System.out.println(spo2Numeric.toString());
 		System.out.println(pulserateNumeric.toString());

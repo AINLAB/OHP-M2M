@@ -40,7 +40,7 @@ public class Main{
 					try{
 						while( true ){
 					           try{
-                                    Thread.sleep(1500);
+                                    Thread.sleep(2000);
 					   			    
                                     String spo2 = ((int)(Math.random() * 10) + 90) + "";
                                     String pulserate = ((int)(Math.random() * 10) + 90) + "";
