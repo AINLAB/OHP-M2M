@@ -1,9 +1,16 @@
 package com.ain.coapserver;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
+
 import org.eclipse.californium.core.CoapServer;
 
 import com.ain.coapserver.coapresources.SpO2MeasurmentResource;
 import com.ain.coapserver.coapresources.SpO2Resource;
+
 
 public class Main{
 	
@@ -11,7 +18,7 @@ public class Main{
 	public static String SPO2DIMPath = "assets/pulse-oximeter-mds.xml";
 	public static CreateXML mdsXML;
 	public static ParserXML parserXML;
-	
+	public static File file;
 	public static void main(String[] args){
 		mdsXML = new CreateXML(96.5f, 95);
 		mdsXML.createdataXML();
@@ -26,45 +33,63 @@ public class Main{
 		coapServer.add(spo2Resource.add(spo2MeasurmentResource));
 		coapServer.start();	
 
-		process();
+		process(new String[]{"cat","/dev/ttyUSB0"});
 
 		
 			
 	}
 
-	public static void process(){
+	public static void process(String[] cmdarray){
 		try{
+			final Process p = Runtime.getRuntime().exec(cmdarray);
+			
 			new Thread(new Runnable(){
 				public void run(){
-			    	
+					String str;
+					
 					try{
+						
 						while( true ){
-					           try{
-                                    Thread.sleep(2000);
-					   			    
-                                    String spo2 = ((int)(Math.random() * 10) + 90) + "";
-                                    String pulserate = ((int)(Math.random() * 10) + 90) + "";
+							try{
+								file = new File("assets/measurment.txt");
+								FileInputStream fis = new FileInputStream(file);
+								BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+								Thread.sleep(2000);
+
+								str=br.readLine();
+								System.out.println(str);
+								String[] arr = str.split(":");
+//								System.out.println(arr[1].substring(0,2));
+//								System.out.println(arr[2].substring(0,2));
+
+								String spo2 = arr[1].substring(0,2);
+								String pulserate = arr[2].substring(0,2);
                                             
-					   			   	mdsXML.SetData(spo2, pulserate);			
-					   			    mdsXML.createdataXML();
-					   			    parserXML.setDoc();
+								mdsXML.SetData(spo2, pulserate);			
+					   			mdsXML.createdataXML();
+					   			parserXML.setDoc();
+								fis.close();
+								br.close();
+							}catch (FileNotFoundException e){
+								e.printStackTrace();
 					   		}catch (Exception e){
 					   			e.printStackTrace();	
 					   		}
-                        }
-                    }catch(Exception e){
+						}
+					}catch(Exception e){
 						e.printStackTrace();	
 					}
 
-			    }
-            }
-            ).start();
-           
+				}
+			}
+		).start();
+          
 		}catch(Exception e){
 			e.printStackTrace();
 		}
         
-    }
+	}
 }
 
 	
