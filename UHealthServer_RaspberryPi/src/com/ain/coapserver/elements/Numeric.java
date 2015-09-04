@@ -37,7 +37,9 @@ public class Numeric {
 	public void setSimple_value(String simple_value) {
 		this.simple_value = simple_value;
 	}
-	
+	public String getSimple_value() {
+		return this.simple_value;
+	}
 	public String toString(){
 		String str = null;
 		

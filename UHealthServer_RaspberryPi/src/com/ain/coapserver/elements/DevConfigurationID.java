@@ -19,6 +19,10 @@ public class DevConfigurationID{
 		this.value = value;
 	}
 	
+	public String getValue(){
+		return this.value;
+	}
+	
 	public String toString(){
 		String str = null;
 		
