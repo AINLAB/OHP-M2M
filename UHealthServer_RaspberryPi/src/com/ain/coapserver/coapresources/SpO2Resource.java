@@ -50,8 +50,8 @@ public class SpO2Resource extends CoapResource{
 	private String getStr(){
 		try{
 			xmlStr = getXMLStr(new FileInputStream(new File(fileName)));	
-			System.out.print("XML : " + "\n");
-			System.out.print(xmlStr);
+			//System.out.print("XML : " + "\n");
+			//System.out.print(xmlStr);
 		}catch(Exception e){
 			e.printStackTrace();	
 		}	

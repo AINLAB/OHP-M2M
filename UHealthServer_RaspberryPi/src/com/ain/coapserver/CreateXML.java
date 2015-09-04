@@ -2,7 +2,6 @@ package com.ain.coapserver;
 
 
 import java.io.FileWriter; 
- 
 import java.io.IOException;  
 import org.jdom2.Attribute;  
 import org.jdom2.Document;  
