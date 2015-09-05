@@ -17,7 +17,7 @@
           <simple>
             <name>Basic-Nu-Observed-Value</name>
             <type>float</type>
-            <value>50</value>
+            <value>64</value>
           </simple>
         </entry>
       </entries>
@@ -40,7 +40,7 @@
           <simple>
             <name>Basic-Nu-Observed-Value</name>
             <type>float</type>
-            <value>96</value>
+            <value>97</value>
           </simple>
         </entry>
       </entries>

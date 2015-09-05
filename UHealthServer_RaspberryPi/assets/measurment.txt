@@ -1,1 +1,1 @@
-1 Send [IR_PPG2530, HeartBeat:50, SugarBlood:96]
+1 Send [IR_PPG1468, HeartBeat:64, SugarBlood:97]
