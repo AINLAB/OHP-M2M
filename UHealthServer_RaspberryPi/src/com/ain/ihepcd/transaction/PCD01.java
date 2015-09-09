@@ -1,18 +1,11 @@
-package com.ain.ihepcd.transaction.pcd01;
+package com.ain.ihepcd.transaction;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.hoh.api.DecodeException;
-import ca.uhn.hl7v2.hoh.api.EncodeException;
-import ca.uhn.hl7v2.hoh.api.IReceivable;
-import ca.uhn.hl7v2.hoh.api.ISendable;
-import ca.uhn.hl7v2.hoh.api.MessageMetadataKeys;
-import ca.uhn.hl7v2.hoh.hapi.api.MessageSendable;
 import ca.uhn.hl7v2.hoh.hapi.client.HohClientSimple;
-import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.Varies;
 import ca.uhn.hl7v2.model.v26.datatype.NM;
 import ca.uhn.hl7v2.model.v26.group.ORU_R01_OBSERVATION;
@@ -25,12 +18,20 @@ import ca.uhn.hl7v2.model.v26.segment.PID;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.parser.PipeParser;
 
-import com.ain.coapserver.ParserXML;
-
 public class PCD01{
-	public static ORU_R01 m_Msg;
+	public ORU_R01 m_Msg;
 	private ORU_R01_ORDER_OBSERVATION m_OrderObservation;
 	private ORU_R01_OBSERVATION m_Observation;
+	private ParserMDS m_ParserMds;
+	private ParserDevice10404 m_Parser10404;
+	private ParserDevice10407 m_Parser10407;
+	private ParserDevice10408 m_Parser10408;
+	private ParserDevice10415 m_Parser10415;
+	private ParserDevice10417 m_Parser10417;
+	private ParserDevice10420 m_Parser10420;
+	private ParserDevice10472 m_Parser10472;
+	/*private ParserDevice10441 m_Parser10441;
+	private ParserDevice10442 m_Parser10442;*/
 	
 	private static String ihePcdHost = "localhost";
 	private static int port = 57471;
@@ -42,6 +43,15 @@ public class PCD01{
     static HohClientSimple client = new HohClientSimple(ihePcdHost, port, uri, parser);
 	
 	public PCD01() throws HL7Exception, IOException{
+		m_ParserMds = new ParserMDS();
+		m_Parser10404 = new ParserDevice10404();
+		m_Parser10407 = new ParserDevice10407();
+		m_Parser10408 = new ParserDevice10408();
+		m_Parser10415 = new ParserDevice10415();
+		m_Parser10417 = new ParserDevice10417();
+		m_Parser10420 = new ParserDevice10420();
+		m_Parser10472 = new ParserDevice10472();
+		
 		m_Msg = new ORU_R01();
 		m_Msg.initQuickstart("ORU", "R01", "T");		
 		m_OrderObservation = m_Msg.getPATIENT_RESULT().getORDER_OBSERVATION();
@@ -78,8 +88,6 @@ public class PCD01{
 	private void SetOBX10404(String val_spo2, String val_pulserate) throws HL7Exception, IOException{
 		OBX segOBX = m_Observation.getOBX();
 		Varies value = segOBX.getObservationValue(0);
-		
-		System.out.println("in SetOBX10404 ; "+val_spo2+", "+val_pulserate);
 		
 		/*-- spo2 -------------------------------------------------------------------------------*/
 		segOBX.getSetIDOBX().setValue("1");
@@ -250,6 +258,7 @@ public class PCD01{
 	private void SetOBX10417(String val_bldGlucose, String val_HbA1c, String val_ctxtExercise, String val_ctxtMedication, String val_ctxtCarbohydrates) throws HL7Exception, IOException{
 		OBX segOBX = m_Observation.getOBX();
 		Varies value = segOBX.getObservationValue(0);
+		
 		
 		/*-- Body Glucose observation result -------------------------------------------------------------*/
 		segOBX.getSetIDOBX().setValue("1");
@@ -579,83 +588,98 @@ public class PCD01{
 		 */
 	}
 	
-	@SuppressWarnings("static-access")
-	public void SetMessage(ParserXML xmlParser) throws HL7Exception, IOException{
+	
+	public void SetMessage(String mdsPath, String metricPath) throws HL7Exception, IOException{
+		int devConfID = 0;
+		
+		m_ParserMds.ParsingMDSXML(mdsPath);
+		devConfID = Integer.parseInt(m_ParserMds.mds.getMds_DevConfId());
 		
 		m_Msg = new ORU_R01();
 		m_Msg.initQuickstart("ORU", "R01", "T");		
 		m_OrderObservation = m_Msg.getPATIENT_RESULT().getORDER_OBSERVATION();
 		m_Observation = m_OrderObservation.getOBSERVATION(0);
 		
+		
 		long time = System.currentTimeMillis();
        	SimpleDateFormat dayTime = new SimpleDateFormat("yyyyMMddhhmmss");
        	String dateStr = dayTime.format(new Date(time));
        	
-       	SetOBR(dateStr);
-       	
        	SetMSH("CUCN", dateStr);
        	SetPID("82", "1234", "Hong", "Gil-dong");
+       	SetOBR(dateStr);
+       	
+       	
+       	switch (devConfID){
+		/* 11073-10404 - Pulse Oximeter */
+		case 400:
+		case 401:
+			m_Parser10404.ParsingMetricXML(metricPath);	
+			SetOBX10404(m_Parser10404.numericSpO2.getNumeric_BasicNuObservedValue(), m_Parser10404.numericPulseRate.getNumeric_BasicNuObservedValue());
+			m_Parser10404.setM_Msg(m_Msg);
+			break;
 			
-		String devConfID = xmlParser.spo2DevConfigurationId.getValue();
-		
-		switch (Integer.parseInt(devConfID)){
-			/* 11073-10404 - Pulse Oximeter */
-			case 400:
-			case 401:
-				SetOBX10404(xmlParser.spo2Numeric.getSimple_value(), xmlParser.pulserateNumeric.getSimple_value());
-				break;
-				
-			/* 11073-10407 - Blood Pressure Monitor */
-			case 700:
-				/*SetOBX10407(val_bldprs, val_pulserate);*/
-				break;
-				
-			/* 11073-10408 - Thermometer */
-			case 800:
-				/*SetOBX10408(val_bodyTemp);*/
-				break;	
-				
-			/* 11073-10415 - Weighing Scale */
-			case 1500:
-				/*SetOBX10415(val_bdyWeight, val_bdyHeight, val_bdyMassIdx);*/
-				break;
-				
-			/* 11073-10417 - Glucose meter */
-			case 1700:
-				/*SetOBX10417(val_bldGlucose, val_HbA1c, val_ctxtExercise, val_ctxtMedication, val_ctxtCarbohydrates);*/
-				break;	
-				
-			/* 11073-10420 - Body composition analyzer */
-			case 2000:
-				/*SetOBX10420(val_bdyFat, val_bdyHeight, val_bdyWeight, val_fatFreeMass, val_softLeanMass, val_bdyWater, val_bdyMassIdx);*/
-				break;
-				
-			/* 11073-10472 - Medication monitor */
-			case 7200:
-			case 7201:
-			case 7202:
-			case 7203:
-				/*SetOBX10472(val_fixMedicationDspsd, val_varMedicationDspsd, val_usrFeedback);*/
-				break;
+		/* 11073-10407 - Blood Pressure Monitor */
+		case 700:
+			SetOBX10407("0","0");
+			m_Parser10407.setM_Msg(m_Msg);
+			break;
 			
-			/*--------------------------------------------------------------------------------------------------
-			 * 10441 and 10442 does not support standard configuration
-			 * We will update this function later
-			 *  	
-			 * 11073-10441 - Cardiovascular fitness and activity monitor
-			 * 11073-10442 - Strength fitness equipment
-			 *--------------------------------------------------------------------------------------------------*/
-			default :
-				break;
-		}
+		/* 11073-10408 - Thermometer */
+		case 800:
+			SetOBX10408("0");
+			m_Parser10408.setM_Msg(m_Msg);
+			break;	
+			
+		/* 11073-10415 - Weighing Scale */
+		case 1500:
+			SetOBX10415("0", "0", "0");
+			m_Parser10415.setM_Msg(m_Msg);
+			break;
+			
+		/* 11073-10417 - Glucose meter */
+		case 1700:
+			m_Parser10417.ParsingMetricXML(metricPath);
+			SetOBX10417(m_Parser10417.numericGlucose.getNumeric_BasicNuObservedValue(), 
+					m_Parser10417.numericHbA1c.getNumeric_BasicNuObservedValue(), 
+					m_Parser10417.numericCtxtExercise.getNumeric_BasicNuObservedValue(), 
+					m_Parser10417.numericCtxtMedication.getNumeric_BasicNuObservedValue(),m_Parser10417.numericCtxtCarbohydrates.getNumeric_BasicNuObservedValue());
+			m_Parser10417.setM_Msg(m_Msg);
+			break;	
+			
+		/* 11073-10420 - Body composition analyzer */
+		case 2000:
+			/* SetOBX10420(val_bdyFat, val_bdyHeight, val_bdyWeight, val_fatFreeMass, val_softLeanMass, val_bdyWater, val_bdyMassIdx); */
+			SetOBX10420("0", "0", "0", "0", "0", "0", "0");
+			m_Parser10420.setM_Msg(m_Msg);
+			break;
+			
+		/* 11073-10472 - Medication monitor */
+		case 7200:
+		case 7201:
+		case 7202:
+		case 7203:
+			/*SetOBX10472(val_fixMedicationDspsd, val_varMedicationDspsd, val_usrFeedback);*/
+			SetOBX10472("0", "0", "0");
+			m_Parser10472.setM_Msg(m_Msg);
+			break;
 		
-//		System.out.println("-----------------");
-//		System.out.println(m_Msg.toString());
-//		System.out.println("-----------------");
+		/*--------------------------------------------------------------------------------------------------
+		 * 10441 and 10442 does not support standard configuration
+		 * This routine will be update later
+		 *  	
+		 * 11073-10441 - Cardiovascular fitness and activity monitor
+		 * 11073-10442 - Strength fitness equipment
+		 *--------------------------------------------------------------------------------------------------*/
+		default :
+			break;
+       	}
+       	
 	}
 	
-	public void SendMessage() throws HL7Exception{
-		/* HL7 Message Sending out */
+	
+	/*public void SendMessage() throws HL7Exception{
+		 HL7 Message Sending out 
 		ISendable sendable = new MessageSendable(m_Msg);
 
         try {
@@ -664,16 +688,16 @@ public class PCD01{
            
            // receivavle.getRawMessage() provides the response
            Message message = receivable.getMessage();
-           System.out.println("Response was:\n" + message.encode());
+           //System.out.println("Response was:\n" + message.encode());
            
            // IReceivable also stores metadata about the message
            String remoteHostIp = (String) receivable.getMetadata().get(MessageMetadataKeys.REMOTE_HOST_ADDRESS);
-           System.out.println("From:\n" + remoteHostIp);
+           //System.out.println("From:\n" + remoteHostIp);
            
-           /*
+           
             * Note that the client may be reused as many times as you like,
             * by calling sendAndReceiveMessage repeatedly
-            */
+            
                 
         } catch (DecodeException e) {
                 // Thrown if the response can't be read
@@ -685,6 +709,28 @@ public class PCD01{
                 // Thrown if the message can't be encoded (generally a programming bug)
                 e.printStackTrace();
         }
+	}*/
+	
+	public ParserDevice10404 getM_Parser10404() {
+		return m_Parser10404;
+	}
+	public ParserDevice10407 getM_Parser10407() {
+		return m_Parser10407;
+	}
+	public ParserDevice10408 getM_Parser10408() {
+		return m_Parser10408;
+	}
+	public ParserDevice10415 getM_Parser10415() {
+		return m_Parser10415;
+	}
+	public ParserDevice10417 getM_Parser10417() {
+		return m_Parser10417;
+	}
+	public ParserDevice10420 getM_Parser10420() {
+		return m_Parser10420;
+	}
+	public ParserDevice10472 getM_Parser10472() {
+		return m_Parser10472;
 	}
 	
 }

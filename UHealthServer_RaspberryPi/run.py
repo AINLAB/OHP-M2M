@@ -8,7 +8,7 @@ if __name__ == "__main__":
 	if sys.argv[1] == "c":
 		print("Compile program")
 
-		src = "src/com/ain/coapserver/coapresources/*.java src/com/ain/coapserver/*.java src/com/ain/coapserver/elements/*.java src/com/ain/ihepcd/transaction/pcd01/*.java"
+		src = "src/com/ain/coapserver/coapresources/*.java src/com/ain/coapserver/*.java src/com/ain/ieee11073/*.java src/com/ain/ieee11073/devices/*.java src/com/ain/ihepcd/transaction/*.java"
 		os.system("javac -classpath " + classpath +" -d bin " +src)
 		os.system("jar -cvf " + ProjectJar +" -C bin/ .")
 

@@ -11,22 +11,22 @@ import org.eclipse.californium.core.coap.CoAP.Type;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
-import com.ain.ihepcd.transaction.pcd01.PCD01;
+import com.ain.ihepcd.transaction.ParserDevice10415;
 
-public class SpO2PCD01Resource extends CoapResource{
+public class D10415PCD01Resource extends CoapResource{
 
-	private String pcdStr;
-	private int dataCf = MediaTypeRegistry.TEXT_PLAIN;
-	private static int TIME_SPAN = 3 * 1000;
-	private Timer timer;
-	private PCD01 pcd01Msg;
 	
-	public SpO2PCD01Resource(String name, PCD01 msg) {
+	private int dataCf = MediaTypeRegistry.TEXT_PLAIN;
+	private static int TIME_SPAN = 5 * 1000;
+	private Timer timer;
+	private ParserDevice10415 m_device_10415;
+	
+	public D10415PCD01Resource(String name, ParserDevice10415 device_10415) {
 		super(name);
-		this.pcd01Msg = msg;
+		this.m_device_10415 = device_10415;
 		setObservable(true);
-		getAttributes().setTitle("SpO2 PCD01");
-		getAttributes().addResourceType("SpO2 PCD01");
+		getAttributes().setTitle("D10415 PCD01");
+		getAttributes().addResourceType("D10415 PCD01");
 		getAttributes().setObservable();
 		setObserveType(Type.CON);
 		
@@ -52,10 +52,8 @@ public class SpO2PCD01Resource extends CoapResource{
 	public void handleGET(CoapExchange exchange) {
 		// TODO Auto-generated method stub
 		
-		System.out.println(exchange+"  GET");
-		System.out.print(this.getClass().getName() + " GET ");
 		exchange.setMaxAge(5);
-		exchange.respond(CONTENT, pcd01Msg.m_Msg.toString(),dataCf);
+		exchange.respond(CONTENT, m_device_10415.m_Msg.toString(),dataCf);
 	}
 	@Override
 	public void handlePOST(CoapExchange exchange) {
