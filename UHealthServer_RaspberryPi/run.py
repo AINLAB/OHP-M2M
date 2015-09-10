@@ -9,7 +9,7 @@ if __name__ == "__main__":
 		print("Compile program")
 
 		src = "src/com/ain/coapserver/coapresources/*.java src/com/ain/coapserver/*.java src/com/ain/ieee11073/*.java src/com/ain/ieee11073/devices/*.java src/com/ain/ihepcd/transaction/*.java"
-		os.system("javac -classpath " + classpath +" -d bin " +src)
+		os.system("javac -encoding UTF8 -classpath " + classpath +" -d bin " +src)
 		os.system("jar -cvf " + ProjectJar +" -C bin/ .")
 
 	if sys.argv[1] == "r":

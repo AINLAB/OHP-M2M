@@ -157,7 +157,7 @@ public interface Nomenclature {
 	public static final int MDC_DIM_MIN							=	2208;	/* min    	                     */
 	public static final int MDC_DIM_HR							=	2240;	/* h          	                 */
 	public static final int MDC_DIM_DAY							=	2272;	/* d              	             */
-	public static final int MDC_DIM_DEGC						=	6048;	/* ¨¬C                 	         */
+	public static final int MDC_DIM_DEGC						=	6048;	/* C                 	         */
 
 	/*************************************************************************************************
 	* From Communication Infrastructure (MDC_PART_INFRA)
