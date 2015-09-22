@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.om2m.ain.d10404
+Bundle-Name: D10404
+Bundle-Version: 1.0.0.20150915-0829
+Bundle-ClassPath: .,libs/californium-core-1.0.0-SNAPSHOT-sources.jar,l
+ ibs/californium-core-1.0.0-SNAPSHOT.jar,libs/dom4j-2.0.0-ALPHA-2.jar,
+ libs/element-connector-1.0.0-SNAPSHOT.jar
+Require-Bundle: org.eclipse.osgi;bundle-version="3.9.1",org.apache.com
+ mons.logging;bundle-version="1.1.1",org.apache.commons.codec;bundle-v
+ ersion="1.4.0",org.eclipse.om2m.commons;bundle-version="0.8.0",org.ec
+ lipse.om2m.core.service;bundle-version="0.8.0",org.eclipse.om2m.ipu.s
+ ervice;bundle-version="0.8.0"
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.eclipse.om2m.ain.d10404.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Import-Package: org.osgi.framework;version="1.3.0"
+
